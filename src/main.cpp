@@ -1,0 +1,115 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <iostream>
+#include "Util/errorReporting.h"
+
+#include <memory>
+
+#include "OpenGL/Shader.h"
+#include "OpenGL/VertexBuffer.h"
+#include "OpenGL/IndexBuffer.h"
+#include "OpenGL/VertexArray.h"
+
+GLFWwindow* createWindow(int width, int height)
+{
+    GLFWwindow* window;
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    window = glfwCreateWindow(width, height, "LearnOGL", NULL,NULL);
+
+    if(window == NULL) {
+        std::cout << "Failed to init window" << std::endl;
+        glfwTerminate();
+        exit(-1);
+    }
+
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed To Initialize a valid OpenGL context" << std::endl;
+        exit(-1);
+    }
+
+    return window;
+}
+
+int clean()
+{
+    glfwTerminate();
+    return 0;
+}
+
+void start()
+{
+
+    GLFWwindow* window = createWindow(1280, 720);
+    enableReportGlErrors();
+
+
+    std::vector<glm::vec3> positions = {
+        glm::vec3(-0.5f, -0.5f, 0.0f),
+        glm::vec3( 0.5f, -0.5f, 0.0f),
+        glm::vec3( 0.5f,  0.5f, 0.0f),
+        glm::vec3(-0.5f,  0.5f, 0.0f),
+        glm::vec3( 0.0f, -0.5f, 0.0f)
+    };
+
+    std::vector<glm::vec3> colors = {
+        glm::vec3(0.0f, 0.0f, 0.5f),
+        glm::vec3(0.0f, 0.0f, 0.5f),
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f)
+    };
+
+
+    std::vector<unsigned int> indices = {
+        0,4,3,
+        3,2,1,
+        1,4,3
+    };
+
+    VertexArray vertexArray;
+
+    VertexBuffer positionBuffer(positions);
+    VertexBuffer colorBuffer(colors);
+    IndexBuffer indexBuffer(indices);
+
+    vertexArray.AddAttribute<float>(positionBuffer, 3);
+    vertexArray.AddAttribute<float>(colorBuffer, 3);
+    indexBuffer.Bind();
+    vertexArray.Unbind();
+    
+
+    std::unique_ptr<Shader> basicShader = std::make_unique<Shader>("Assets/Shaders/basic.vs", "Assets/Shaders/basic.fs");
+    
+
+    while (!glfwWindowShouldClose(window))
+    {
+        glClearColor(0.1f,0.1f,0.1f,1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        basicShader.get()->Use();
+        
+        vertexArray.Bind();
+        indexBuffer.Bind();
+
+        glDrawElements(GL_TRIANGLES, indexBuffer.GetCount(), GL_UNSIGNED_INT, nullptr);
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    
+}
+
+int main()
+{   
+    start();
+
+    return clean();
+    
+}
