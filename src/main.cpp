@@ -11,6 +11,8 @@
 #include "OpenGL/IndexBuffer.h"
 #include "OpenGL/VertexArray.h"
 
+#include "OpenGL/Texture2D.h"
+
 GLFWwindow* createWindow(int width, int height)
 {
     GLFWwindow* window;
@@ -56,36 +58,42 @@ void start()
         glm::vec3( 0.5f, -0.5f, 0.0f),
         glm::vec3( 0.5f,  0.5f, 0.0f),
         glm::vec3(-0.5f,  0.5f, 0.0f),
-        glm::vec3( 0.0f, -0.5f, 0.0f)
     };
 
     std::vector<glm::vec3> colors = {
-        glm::vec3(0.0f, 0.0f, 0.5f),
-        glm::vec3(0.0f, 0.0f, 0.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 0.0f, 0.0),
         glm::vec3(0.0f, 1.0f, 0.0f),
-        glm::vec3(0.0f, 0.0f, 1.0f)
+        glm::vec3(1.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f),
+    };
+
+    std::vector<glm::vec2> uvCoords = {
+        glm::vec2(0.0f, 0.0f),
+        glm::vec2(1.0f, 0.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f)
     };
 
 
     std::vector<unsigned int> indices = {
-        0,4,3,
-        3,2,1,
-        1,4,3
+        0,1,2,
+        2,3,0
     };
 
     VertexArray vertexArray;
 
     VertexBuffer positionBuffer(positions);
     VertexBuffer colorBuffer(colors);
+    VertexBuffer uvBuffer(uvCoords);
     IndexBuffer indexBuffer(indices);
 
     vertexArray.AddAttribute<float>(positionBuffer, 3);
     vertexArray.AddAttribute<float>(colorBuffer, 3);
+    vertexArray.AddAttribute<float>(uvBuffer, 2);
     indexBuffer.Bind();
     vertexArray.Unbind();
     
-
+    std::unique_ptr<Texture2D> texture = std::make_unique<Texture2D>("Assets/Textures/crate.bmp");
     std::unique_ptr<Shader> basicShader = std::make_unique<Shader>("Assets/Shaders/basic.vs", "Assets/Shaders/basic.fs");
     
 
@@ -94,6 +102,8 @@ void start()
         glClearColor(0.1f,0.1f,0.1f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         basicShader.get()->Use();
+        texture.get()->Bind();
+        basicShader.get()->SetUniform1I("u_TextureDiffuse", texture.get()->getTexture());
         
         vertexArray.Bind();
         indexBuffer.Bind();
