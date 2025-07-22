@@ -21,6 +21,7 @@ target_include_directories("CAGE3D" PUBLIC
 "Libraries/glfw/include"
 "Libraries/glm/"
 "Libraries/tiny-image/include"
+"Libraries/stb"
 )
 
 target_link_libraries("CAGE3D" PRIVATE

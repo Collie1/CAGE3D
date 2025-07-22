@@ -11,6 +11,8 @@
 #include "OpenGL/IndexBuffer.h"
 #include "OpenGL/VertexArray.h"
 
+#include "OpenGL/Texture2D.h"
+
 GLFWwindow* createWindow(int width, int height)
 {
     GLFWwindow* window;
@@ -91,7 +93,7 @@ void start()
     indexBuffer.Bind();
     vertexArray.Unbind();
     
-
+    std::unique_ptr<Texture2D> texture = std::make_unique<Texture2D>("Assets/Textures/crate.bmp");
     std::unique_ptr<Shader> basicShader = std::make_unique<Shader>("Assets/Shaders/basic.vs", "Assets/Shaders/basic.fs");
     
 
@@ -100,6 +102,8 @@ void start()
         glClearColor(0.1f,0.1f,0.1f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         basicShader.get()->Use();
+        texture.get()->Bind();
+        basicShader.get()->SetUniform1I("u_TextureDiffuse", texture.get()->getTexture());
         
         vertexArray.Bind();
         indexBuffer.Bind();

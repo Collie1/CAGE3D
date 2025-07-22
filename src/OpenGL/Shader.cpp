@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <glm/gtc/type_ptr.hpp>
 
 void Shader::Use()
 {
@@ -95,7 +96,49 @@ Shader::~Shader()
     glDeleteProgram(m_RendererID);
 }
 
+
+void Shader::SetUniform1I(const char* name, int value)
+{
+    glUniform1i(getUniformLocation(name), value);
+}
+
+void Shader::SetUniform1UI(const char* name, unsigned int value)
+{
+    glUniform1ui(getUniformLocation(name), value);
+}
+
+void Shader::SetUniform1F(const char* name, float value)
+{
+    glUniform1f(getUniformLocation(name), value);
+}
+
+void Shader::SetUniform3f(const char* name, glm::vec3& value)
+{
+    glUniform3f(getUniformLocation(name), value.x,value.y,value.z);
+}
+
+void Shader::SetUniform4f(const char* name, glm::vec4& value)
+{
+    glUniform4f(getUniformLocation(name), value.x, value.y, value.z, value.w);
+}
+
+void Shader::SetUniformMat4f(const char* name, glm::mat4& value)
+{
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::SetUniformBool(const char* name, bool value)
+{
+    glUniform1f(getUniformLocation(name), value);
+}
+
 int Shader::getUniformLocation(const char* name)
 {
-    return glGetUniformLocation(m_RendererID, name);
+    Use();
+    if (m_ShaderLocCache.find(name) != m_ShaderLocCache.end())
+        return m_ShaderLocCache[name];
+
+    GLint location = glGetUniformLocation(m_RendererID, name);
+    m_ShaderLocCache[name] = location;
+    return location;
 }

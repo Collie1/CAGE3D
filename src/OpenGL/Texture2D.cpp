@@ -1,7 +1,9 @@
 #include "Texture2D.h"
 
 #include <glad/glad.h>
-#include <tiny-image/tinyimage.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 #include <iostream>
 
 void Texture2D::Bind(int slot)
@@ -28,17 +30,33 @@ Texture2D::Texture2D(const char* filePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    int width, height;
-    unsigned char* image_data = tinyimg_load("filePath", &width, &height, TinyImgColorType::TINYIMG_RGBA);
-    if (image_data)
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
+    if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+        std::cout << nrChannels << std::endl;
+        GLenum format;
+        switch (nrChannels)
+        {
+        case 3:
+            format = GL_RGB;
+            break;
+        
+        case 4:
+            format = GL_RGBA;
+            break;
+        default:
+
+            break;
+        }
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
-    } else
+    }
+    else
     {
         std::cout << "Failed to load texture" << std::endl;
     }
-    tinyimg_free(image_data);
+    stbi_image_free(data);
 }
 
 Texture2D::~Texture2D()
