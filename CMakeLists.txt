@@ -20,7 +20,7 @@ target_include_directories("CAGE3D" PUBLIC
 "Libraries/glad/include"
 "Libraries/glfw/include"
 "Libraries/glm/"
-"Libraries/tiny-image"
+"Libraries/tiny-image/include"
 )
 
 target_link_libraries("CAGE3D" PRIVATE

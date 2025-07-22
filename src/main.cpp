@@ -56,32 +56,38 @@ void start()
         glm::vec3( 0.5f, -0.5f, 0.0f),
         glm::vec3( 0.5f,  0.5f, 0.0f),
         glm::vec3(-0.5f,  0.5f, 0.0f),
-        glm::vec3( 0.0f, -0.5f, 0.0f)
     };
 
     std::vector<glm::vec3> colors = {
-        glm::vec3(0.0f, 0.0f, 0.5f),
-        glm::vec3(0.0f, 0.0f, 0.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 0.0f, 0.0),
         glm::vec3(0.0f, 1.0f, 0.0f),
-        glm::vec3(0.0f, 0.0f, 1.0f)
+        glm::vec3(1.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f),
+    };
+
+    std::vector<glm::vec2> uvCoords = {
+        glm::vec2(0.0f, 0.0f),
+        glm::vec2(1.0f, 0.0f),
+        glm::vec2(1.0f, 1.0f),
+        glm::vec2(0.0f, 1.0f)
     };
 
 
     std::vector<unsigned int> indices = {
-        0,4,3,
-        3,2,1,
-        1,4,3
+        0,1,2,
+        2,3,0
     };
 
     VertexArray vertexArray;
 
     VertexBuffer positionBuffer(positions);
     VertexBuffer colorBuffer(colors);
+    VertexBuffer uvBuffer(uvCoords);
     IndexBuffer indexBuffer(indices);
 
     vertexArray.AddAttribute<float>(positionBuffer, 3);
     vertexArray.AddAttribute<float>(colorBuffer, 3);
+    vertexArray.AddAttribute<float>(uvBuffer, 2);
     indexBuffer.Bind();
     vertexArray.Unbind();
     
