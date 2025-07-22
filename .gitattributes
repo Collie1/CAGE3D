@@ -1,0 +1,4 @@
+Libraries/glad/** linguist-vendored
+Libraries/glfw/** linguist-vendored
+Libraries/glm/** linguist-vendored
+Libraries/tiny-image/** linguist-vendored
