@@ -7,3 +7,6 @@
 [submodule "Libraries/tiny-image"]
 	path = Libraries/tiny-image
 	url = https://github.com/Collie1/tiny-image.git
+[submodule "Libraries/assimp"]
+	path = Libraries/assimp
+	url = https://github.com/assimp/assimp.git

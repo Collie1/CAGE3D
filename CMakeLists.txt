@@ -12,16 +12,16 @@ find_package("OpenGL")
 add_subdirectory("Libraries/glad")
 add_subdirectory("Libraries/glfw")
 add_subdirectory("Libraries/glm")
-add_subdirectory("Libraries/tiny-image")
+add_subdirectory("Libraries/imgui/imgui")
 
 add_executable("CAGE3D" "${sources}")
 
 target_include_directories("CAGE3D" PUBLIC
 "Libraries/glad/include"
-"Libraries/glfw/include"
+"Libraries/glfw/include" 
 "Libraries/glm/"
-"Libraries/tiny-image/include"
 "Libraries/stb"
+"LIbraries/imgui"
 )
 
 target_link_libraries("CAGE3D" PRIVATE
@@ -29,7 +29,7 @@ target_link_libraries("CAGE3D" PRIVATE
 "glfw"
 "glad"
 "glm"
-"tiny-image"
+"imgui"
 )
 
 
