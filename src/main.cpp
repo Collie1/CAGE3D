@@ -13,9 +13,6 @@ int clean()
 
 void start()
 {
-    Window window("Hello !", 1280, 720);
-    Renderer renderer(window);
-
 
     /*float rawVertexData[] = {
         // Front face
@@ -96,22 +93,14 @@ void start()
     Transform transform;
     transform.rotation.y = 45;*/
 
-    CAGEEngine engine;
-    engine.Initialize();
-    while (engine.window.)
+    CAGEEngine engine("Engine", 1280, 720);
+    while (engine.GetContext().window.isRunning())
     {
-        /* code */
+        engine.GetContext().renderer.Clear(glm::vec3(0.125f));
+        engine.GetContext().window.Present();
+        engine.GetContext().window.PollEvents();
     }
     
-
-    while (window.isRunning())
-    {
-
-        renderer.Clear(glm::vec3(0.125f));
-        window.Present();
-        window.PollEvents();
-
-    }
     
 }
 

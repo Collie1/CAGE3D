@@ -10,13 +10,20 @@ struct EngineContext {
     Renderer& renderer;
     InputManager& inputManager;
     Window& window;
+
+    EngineContext(Renderer& renderer, InputManager& inputManager, Window& window) : renderer(renderer), inputManager(inputManager), window(window) {
+
+
+
+    }
+
     // Add more systems as needed (AudioManager, Physics, etc.)
 };
 
 // Your main engine class
 class CAGEEngine {
 public:
-    CAGEEngine();
+    CAGEEngine(const char* gameName, int width, int height);
     ~CAGEEngine();
 
     void Initialize();

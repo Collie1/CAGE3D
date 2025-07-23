@@ -1,9 +1,14 @@
 #include "Engine.h"
 
-CAGEEngine::CAGEEngine() {
+CAGEEngine::CAGEEngine(const char* gameName, int width, int height) 
+    : window(gameName, width, height), renderer(window), context(renderer,inputManager,window)
+{
     // Setup context
-    context.inputManager = inputManager;
-    context.renderer = renderer;
+
+
+
+
+    Initialize();
 
     
 }

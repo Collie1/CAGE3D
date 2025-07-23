@@ -6,9 +6,9 @@ void InputManager::SetWindow(const Window& window) {
     
 
     // Store a pointer to this InputManager instance in the GLFW window
-    glfwSetCursorPosCallback(window.getID(), SetWindow);
+    glfwSetCursorPosCallback(window.getID(), InputManager::OnMouseMove);
 }
 
-void InputManager::OnMouseMove(double xpos, double ypos)
+void InputManager::OnMouseMove(GLFWwindow* window, double xpos, double ypos)
 {
 }

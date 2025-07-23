@@ -17,6 +17,7 @@ class Renderer
 {
 public:
     Renderer(const Window& window);
+    Renderer() {}
     ~Renderer();
     void Clear(glm::vec3 clearColor);
     void Draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer, Transform transform);

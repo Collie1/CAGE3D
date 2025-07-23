@@ -5,7 +5,7 @@
 
 class InputManager {
 public:
-    void OnMouseMove(double xpos, double ypos);
+    static void OnMouseMove(GLFWwindow* window, double xpos, double ypos);
 
     void SetWindow(const Window& window);  // to link the callback
 private:
