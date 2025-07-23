@@ -7,9 +7,11 @@ layout (location = 2) in vec2 aUV;
 out vec3 VertColor;
 out vec2 TexCoords;
 
+uniform mat4 u_MVP;
+
 void main()
 {
-    gl_Position = vec4(aPos,1.0);
+    gl_Position = u_MVP * vec4(aPos,1.0);
     TexCoords = aUV;
     VertColor = aColor;
 }

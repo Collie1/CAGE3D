@@ -44,13 +44,19 @@ Index of this file:
 */
 
 #pragma once
+
+
 #ifndef IMGUI_DISABLE
+
 
 //-----------------------------------------------------------------------------
 // [SECTION] Header mess
 //-----------------------------------------------------------------------------
 
 #ifndef IMGUI_VERSION
+#ifndef IMGUI_DEFINE_MATH_OPERATORS
+#define IMGUI_DEFINE_MATH_OPERATORS
+#endif // IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h"
 #endif
 

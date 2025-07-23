@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include <vector>
 
@@ -7,7 +7,7 @@ public:
     void Bind() const;
     void Unbind() const;
 
-    inline unsigned int GetCount() { return m_Count; }
+    inline unsigned int GetCount() const { return m_Count; }
 
     IndexBuffer(const std::vector<unsigned int>& data);
     ~IndexBuffer();

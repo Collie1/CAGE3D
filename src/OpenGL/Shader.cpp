@@ -17,6 +17,9 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     std::ifstream vsFile;
     std::ifstream fsFile;
 
+    std::string vertexCode;
+    std::string fragmentCode;
+
     vsFile.exceptions(std::ifstream::badbit);
     fsFile.exceptions(std::ifstream::badbit);
 
@@ -31,24 +34,29 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
         vsFile.close();
         fsFile.close();
+
+        vertexCode = vertexShaderSource.str();
+        fragmentCode = fragmentShaderSource.str();
     }
     catch(const std::ifstream::failure& e)
     {
         std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << e.code() <<  std::endl;
     }
+
+    const char* vShaderCode = vertexCode.c_str();
+    const char* fShaderCode = fragmentCode.c_str();
     
     int success;
     char infoLog[512];
 
-    const char* vertexCode   =     vertexShaderSource.str().c_str();
-    const char* fragmentCode =   fragmentShaderSource.str().c_str();
 
     unsigned int vs,fs;
     vs = glCreateShader(GL_VERTEX_SHADER);
     fs = glCreateShader(GL_FRAGMENT_SHADER);
 
+
     
-    glShaderSource(vs, 1, &vertexCode, NULL);
+    glShaderSource(vs, 1, &vShaderCode, NULL);
     glCompileShader(vs);
     glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
     if (!success)
@@ -58,7 +66,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     }
 
     fs = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fs, 1, &fragmentCode, NULL);
+    glShaderSource(fs, 1, &fShaderCode, NULL);
     glCompileShader(fs);
     glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
     if (!success)

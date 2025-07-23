@@ -435,7 +435,7 @@ void    ImGui_ImplOpenGL3_Shutdown()
     IM_DELETE(bd);
 
 #ifdef IMGUI_IMPL_OPENGL_LOADER_IMGL3W
-    imgl3wShutdown();
+
 #endif
 }
 
